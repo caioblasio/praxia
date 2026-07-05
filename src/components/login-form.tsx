@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
-import { login, type LoginState } from '@/app/login/actions';
+import { login, type LoginState } from '@/app/(public)/login/actions';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
