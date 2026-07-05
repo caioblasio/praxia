@@ -1,19 +1,13 @@
-"use client";
+'use client';
 
-import { useActionState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useActionState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
-import { login, type LoginState } from "@/app/login/actions";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { login, type LoginState } from '@/app/login/actions';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -21,12 +15,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
 const loginSchema = z.object({
-  email: z.string().email("Enter a valid email address."),
-  password: z.string().min(6, "Password must be at least 6 characters."),
+  email: z.string().email('Enter a valid email address.'),
+  password: z.string().min(6, 'Password must be at least 6 characters.'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -39,8 +33,8 @@ export function LoginForm() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -48,9 +42,7 @@ export function LoginForm() {
     <Card className="w-full max-w-sm">
       <CardHeader>
         <CardTitle>Sign in</CardTitle>
-        <CardDescription>
-          Enter your email and password to access your account.
-        </CardDescription>
+        <CardDescription>Enter your email and password to access your account.</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -58,8 +50,8 @@ export function LoginForm() {
             className="space-y-4"
             onSubmit={form.handleSubmit((values) => {
               const formData = new FormData();
-              formData.set("email", values.email);
-              formData.set("password", values.password);
+              formData.set('email', values.email);
+              formData.set('password', values.password);
               formAction(formData);
             })}
           >
@@ -88,21 +80,15 @@ export function LoginForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      autoComplete="current-password"
-                      {...field}
-                    />
+                    <Input type="password" autoComplete="current-password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            {state.error ? (
-              <p className="text-sm text-destructive">{state.error}</p>
-            ) : null}
+            {state.error ? <p className="text-destructive text-sm">{state.error}</p> : null}
             <Button type="submit" className="w-full" disabled={pending}>
-              {pending ? "Signing in..." : "Sign in"}
+              {pending ? 'Signing in...' : 'Sign in'}
             </Button>
           </form>
         </Form>

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from '@/lib/supabase/server';
 
 type Todo = {
   id: number;
@@ -7,7 +7,7 @@ type Todo = {
 
 export default async function Home() {
   const supabase = await createClient();
-  const { data: todos, error } = await supabase.from("todos").select();
+  const { data: todos, error } = await supabase.from('todos').select();
 
   if (error) {
     throw new Error(error.message);
@@ -19,9 +19,7 @@ export default async function Home() {
         <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
           Todos
         </h1>
-        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-          Fetched from Supabase
-        </p>
+        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">Fetched from Supabase</p>
 
         {!todos?.length ? (
           <p className="mt-8 text-zinc-600 dark:text-zinc-400">No todos yet.</p>

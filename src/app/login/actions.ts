@@ -1,23 +1,20 @@
-"use server";
+'use server';
 
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from '@/lib/supabase/server';
 
 export type LoginState = {
   error?: string;
 };
 
-export async function login(
-  _prevState: LoginState,
-  formData: FormData,
-): Promise<LoginState> {
-  const email = formData.get("email");
-  const password = formData.get("password");
+export async function login(_prevState: LoginState, formData: FormData): Promise<LoginState> {
+  const email = formData.get('email');
+  const password = formData.get('password');
 
-  if (typeof email !== "string" || typeof password !== "string") {
-    return { error: "Email and password are required." };
+  if (typeof email !== 'string' || typeof password !== 'string') {
+    return { error: 'Email and password are required.' };
   }
 
   const supabase = await createClient();
@@ -30,6 +27,6 @@ export async function login(
     return { error: error.message };
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath('/', 'layout');
+  redirect('/');
 }
