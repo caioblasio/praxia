@@ -64,6 +64,47 @@ export type Database = {
         };
         Relationships: [];
       };
+      patients: {
+        Row: {
+          cpf: string;
+          created_at: string;
+          first_name: string;
+          id: string;
+          last_name: string;
+          phone: string;
+          project_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          cpf: string;
+          created_at?: string;
+          first_name: string;
+          id?: string;
+          last_name: string;
+          phone: string;
+          project_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          cpf?: string;
+          created_at?: string;
+          first_name?: string;
+          id?: string;
+          last_name?: string;
+          phone?: string;
+          project_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'patients_project_id_fkey';
+            columns: ['project_id'];
+            isOneToOne: false;
+            referencedRelation: 'projects';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       profiles: {
         Row: {
           created_at: string;
