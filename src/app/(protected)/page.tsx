@@ -1,36 +1,47 @@
+import { getUserOrganization } from '@/lib/auth/organization';
 import { createClient } from '@/lib/supabase/server';
 
-type Todo = {
-  id: number;
-  name: string;
-};
-
 export default async function Home() {
-  const supabase = await createClient();
-  const { data: todos, error } = await supabase.from('todos').select();
+  const [organization, supabase] = await Promise.all([getUserOrganization(), createClient()]);
 
-  if (error) {
-    throw new Error(error.message);
+  const { data: projects, error: projectsError } = await supabase
+    .from('projects')
+    .select('id, name')
+    .order('name');
+
+  if (projectsError) {
+    throw new Error(projectsError.message);
   }
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 font-sans dark:bg-black">
       <main className="w-full max-w-lg rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
-          Todos
+        <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">Organization</p>
+        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+          {organization?.name ?? 'Not assigned to an organization'}
         </h1>
-        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">Fetched from Supabase</p>
+        {organization ? (
+          <p className="mt-2 text-sm text-zinc-500 capitalize dark:text-zinc-400">
+            Signed in as {organization.role}
+          </p>
+        ) : null}
 
-        {!todos?.length ? (
-          <p className="mt-8 text-zinc-600 dark:text-zinc-400">No todos yet.</p>
+        <h2 className="mt-8 text-sm font-medium text-zinc-500 dark:text-zinc-400">
+          Projects visible to your account
+        </h2>
+
+        {!projects?.length ? (
+          <p className="mt-3 text-zinc-600 dark:text-zinc-400">
+            No projects yet. Org admins can create projects and assign members.
+          </p>
         ) : (
-          <ul className="mt-8 space-y-2">
-            {(todos as Todo[]).map((todo) => (
+          <ul className="mt-3 space-y-2">
+            {projects.map((project) => (
               <li
-                key={todo.id}
+                key={project.id}
                 className="rounded-lg border border-zinc-200 px-4 py-3 text-zinc-900 dark:border-zinc-800 dark:text-zinc-100"
               >
-                {todo.name}
+                {project.name}
               </li>
             ))}
           </ul>
