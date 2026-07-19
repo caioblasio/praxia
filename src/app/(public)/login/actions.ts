@@ -38,5 +38,5 @@ export async function login(_prevState: LoginState, formData: FormData): Promise
   }
 
   revalidatePath('/', 'layout');
-  redirect('/');
+  redirect('/projects');
 }
